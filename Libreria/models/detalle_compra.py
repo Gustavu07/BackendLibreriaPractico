@@ -1,4 +1,3 @@
-# archivo: detalle_compra.py
 from django.db import models
 from Libreria.models import Libro
 from .compra import Compra

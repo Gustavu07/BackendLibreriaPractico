@@ -38,6 +38,6 @@ class CompraViewSet(viewsets.ReadOnlyModelViewSet):
             compra.save()
             carrito_items.delete()
 
-        return Response({'mensaje': 'Compra realizada con éxito', 'compra_id': compra.id},
+        return Response({'mensaje': 'Compra realizada con éxito', 'compra_id': compra.id, 'total': compra.total},
                         status=status.HTTP_201_CREATED)
 

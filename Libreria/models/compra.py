@@ -1,4 +1,3 @@
-# archivo: compra.py
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -7,7 +6,6 @@ class Compra(models.Model):
     fecha_compra = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     #comprobante = models.FileField(upload_to='comprobantes/', null=True, blank=True)
-    #qr_generado = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return f'Compra #{self.id} de {self.usuario.username}'
