@@ -2,14 +2,25 @@ from rest_framework import serializers
 from Libreria.models import Carrito, Libro
 
 class CarritoSerializer(serializers.ModelSerializer):
-    libro_titulo = serializers.CharField(source='libro.titulo', read_only=True)
+    libro = serializers.PrimaryKeyRelatedField(queryset=Libro.objects.all())
+    libro_titulo = serializers.SerializerMethodField()
 
     class Meta:
         model = Carrito
         fields = ['id', 'libro', 'libro_titulo', 'fecha_agregado']
 
-    def validate_libro(self, value):
+    def get_libro_titulo(self, obj):
+        return obj.libro.titulo
+
+    def validate(self, attrs):
         user = self.context['request'].user
-        if Carrito.objects.filter(usuario=user, libro=value).exists():
+        libro = attrs.get('libro')
+
+        if Carrito.objects.filter(usuario=user, libro=libro).exists():
             raise serializers.ValidationError("Este libro ya está en el carrito.")
-        return value
+
+        return attrs
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return Carrito.objects.create(usuario=user, **validated_data)

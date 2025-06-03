@@ -10,5 +10,3 @@ class CarritoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Carrito.objects.filter(usuario=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save(usuario=self.request.user)
